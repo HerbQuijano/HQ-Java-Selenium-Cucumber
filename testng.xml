@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Heroku App">
+    <test name="Sanity Testing">
+        <classes>
+            <class name="org.hquijano.tests.LandingPageTest"/>
+            <class name="org.hquijano.tests.FormAuthPageTest"/>
+            <!-- Other test classes -->
+        </classes>
+    </test>
+    <test name = "Login Test">
+        <classes>
+            <class name="org.hquijano.tests.FormAuthPageTest">
+                <methods>
+                    <exclude name="testInvalidPassword"/>
+                    <exclude name="testLogin.*"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>

@@ -1,0 +1,78 @@
+package org.hquijano.tests;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+import org.testng.Assert;
+import org.hquijano.pageobjects.FormAuthPage;
+import org.hquijano.pageobjects.LandingPage;
+import org.hquijano.pageobjects.LoginResultPage;
+import org.hquijano.testcomponents.BaseTest;
+import org.testng.annotations.DataProvider;
+import org.testng.annotations.Test;
+
+public class FormAuthPageTest extends BaseTest {
+
+  @Test(dataProvider = "loginSuccessData", groups = {"Smoke"})
+    public void testLoginSuccess(String username, String password){
+        LandingPage lp = launchApplication();
+        FormAuthPage fap = lp.navigateToFormAuthPage();
+        //fap.fillAuthForm("tomsmith", "SuperSecretPassword!");
+        fap.fillAuthForm(username, password);
+        fap.clickSubmitButton();
+        LoginResultPage lr = fap.getLoginResultPage();
+
+        Assert.assertTrue(lr.isResultMessageDisplayed());
+        Assert.assertTrue(lr.getResultMessage().contains("You logged into a secure area!"));
+    }
+
+    @Test(dataProvider = "loginFailData", groups = {"Smoke"})
+    public void testInvalidPassword(String username, String password){
+        LandingPage lp = launchApplication();
+        FormAuthPage fap = lp.navigateToFormAuthPage();
+        fap.fillAuthForm(username, password);
+        fap.clickSubmitButton();
+        LoginResultPage lr = fap.getLoginResultPage();
+
+        Assert.assertTrue(lr.isResultMessageDisplayed());
+        Assert.assertTrue(lr.getResultMessage().contains("Your password is invalid!"));
+    }
+
+    @Test(groups = {"Smoke"}, dataProvider = "loginSuccessData")
+    public void testLoginFlashMessage(String username, String password){
+        LandingPage lp = launchApplication();
+        FormAuthPage fap = lp.navigateToFormAuthPage();
+        //fap.fillAuthForm("tomsmith", "SuperSecretPassword!");
+        fap.fillAuthForm(username, password);
+        fap.clickSubmitButton();
+        LoginResultPage lr = fap.getLoginResultPage();
+
+        Assert.assertTrue(lr.isResultMessageDisplayed());
+        Assert.assertTrue(lr.getResultMessage().contains("You logged into a secure area!"));
+    }
+
+    @DataProvider
+    public Object[][] loginSuccessData() {
+      return new Object[][]{
+          {"tomsmith", "SuperSecretPassword!"}
+      };
+    }
+
+    @DataProvider
+    public Object[][] loginFailData() {
+        return new Object[][]{
+           {"tomsmith", "SuperSecretPassword"}
+        };
+    }
+
+//    static Stream<Arguments> loginDataPass(){
+//        return Stream.of(
+//                Arguments.of("tomsmith", "SuperSecretPassword!")
+//        );
+//    }
+//
+//    static Stream<Arguments> loginDataFail() {
+//        return Stream.of(
+//                Arguments.of("tomsmith", "wrongpassword")
+//        );
+//    }
+}

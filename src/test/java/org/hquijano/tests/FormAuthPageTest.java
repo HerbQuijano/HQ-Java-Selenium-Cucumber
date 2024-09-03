@@ -10,6 +10,8 @@ import org.hquijano.testcomponents.BaseTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
+
 public class FormAuthPageTest extends BaseTest {
 
   @Test(dataProvider = "loginSuccessData", groups = {"Smoke"})
@@ -50,6 +52,19 @@ public class FormAuthPageTest extends BaseTest {
         Assert.assertTrue(lr.getResultMessage().contains("You logged into a secure area!"));
     }
 
+    @Test(groups = {"Smoke"}, dataProvider = "loginSuccessDataMap")
+    public void testLoginFlashMessageMap(HashMap<Object, Object> map){
+        LandingPage lp = launchApplication();
+        FormAuthPage fap = lp.navigateToFormAuthPage();
+        //fap.fillAuthForm("tomsmith", "SuperSecretPassword!");
+        fap.fillAuthForm(map.get("username").toString(), map.get("password").toString());
+        fap.clickSubmitButton();
+        LoginResultPage lr = fap.getLoginResultPage();
+
+        Assert.assertTrue(lr.isResultMessageDisplayed());
+        Assert.assertTrue(lr.getResultMessage().contains("You logged into a secure area!"));
+    }
+
     @DataProvider
     public Object[][] loginSuccessData() {
       return new Object[][]{
@@ -62,6 +77,15 @@ public class FormAuthPageTest extends BaseTest {
         return new Object[][]{
            {"tomsmith", "SuperSecretPassword"}
         };
+    }
+
+    @DataProvider
+    public Object[][] loginSuccessDataMap() {
+        HashMap<Object, Object> dataMap = new HashMap<>();
+        dataMap.put("username", "tomsmith");
+        dataMap.put("password", "SuperSecretPassword!");
+
+        return new Object[][]{{dataMap}};
     }
 
 //    static Stream<Arguments> loginDataPass(){

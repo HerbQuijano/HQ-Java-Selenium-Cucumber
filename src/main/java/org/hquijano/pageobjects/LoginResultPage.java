@@ -5,13 +5,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class LoginResultPage extends BasePage {
 
-    WebElement resultMessage = driver.findElement(By.cssSelector(".flash"));
+    @FindBy(css = ".flash")
+    WebElement resultMessage;
 
     public LoginResultPage(WebDriver driver){
         super(driver);
+        PageFactory.initElements(driver, this);
     }
 
     public String getResultMessage(){

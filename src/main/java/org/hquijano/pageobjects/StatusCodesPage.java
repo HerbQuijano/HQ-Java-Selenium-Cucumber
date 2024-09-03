@@ -1,21 +1,29 @@
 package org.hquijano.pageobjects;
 
 import org.hquijano.utilityclasses.BasePage;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class StatusCodesPage extends BasePage {
 
     public StatusCodesPage(WebDriver driver) {
         super(driver);
+        PageFactory.initElements(driver, this);
     }
 
-    //WebElement statusCodeTitle = driver.findElement(By.cssSelector("h3"));
-    WebElement status200Link = driver.findElement(By.cssSelector("a[href='status_codes/200']"));
-    WebElement status301Link = driver.findElement(By.cssSelector("a[href='status_codes/301']"));
-    WebElement status404Link = driver.findElement(By.cssSelector("a[href='status_codes/404']"));
-    WebElement status500Link = driver.findElement(By.cssSelector("a[href='status_codes/500']"));
+    @FindBy(css = "a[href='status_codes/200']")
+    WebElement status200Link;
+
+    @FindBy(css = "a[href='status_codes/301']")
+    WebElement status301Link;
+
+    @FindBy(css = "a[href='status_codes/404']")
+    WebElement status404Link;
+
+    @FindBy(css = "a[href='status_codes/500']")
+    WebElement status500Link;
 
     public String getStatus200URL() {
 

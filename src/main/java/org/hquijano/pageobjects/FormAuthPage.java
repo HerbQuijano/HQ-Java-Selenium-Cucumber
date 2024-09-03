@@ -4,17 +4,25 @@ import org.hquijano.utilityclasses.BasePage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 public class FormAuthPage extends BasePage {
 
     public FormAuthPage(WebDriver driver){
         super(driver);
+        PageFactory.initElements(driver, this);
     }
 
 
-    WebElement usernameInput = driver.findElement(By.id("username"));
-    WebElement passwordInput = driver.findElement(By.id("password"));
-    WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit']"));
+    @FindBy(id = "username")
+    WebElement usernameInput;
+
+    @FindBy(id = "password")
+    WebElement passwordInput;
+
+    @FindBy(css = "button[type='submit']")  // CSS selector is used here instead of id to handle dynamic elements with IDs changing over time
+    WebElement submitButton;
 
     public void fillAuthForm(String username, String password){
         //usernameInput.sendKeys(username);

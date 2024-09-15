@@ -1,7 +1,6 @@
 package org.hquijano.utilityclasses;
 
 import org.apache.commons.io.FileUtils;
-import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,15 +20,15 @@ public abstract class BasePage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(timeout));
     }
 
-    public void setTimeOut(int seconds){
+    public void setTimeOut(int seconds) {
         this.timeout = seconds;
     }
 
-    public void type(WebElement element, String text){
+    public void type(WebElement element, String text) {
         element.sendKeys(text);
     }
 
-    public void click(WebElement element){
+    public void click(WebElement element) {
         element.click();
     }
 
@@ -37,7 +36,7 @@ public abstract class BasePage {
         wait.until(ExpectedConditions.visibilityOf(element));
     }
 
-    public void navigateTo(String url){
+    public void navigateTo(String url) {
         driver.get(url);
     }
 

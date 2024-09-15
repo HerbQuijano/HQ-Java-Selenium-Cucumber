@@ -82,3 +82,4 @@ fabric.properties
 
 # Screenshots
 /src/screenshots
+/src/test/resources/extent/

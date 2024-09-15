@@ -1,0 +1,7 @@
+org\hquijano\pageobjects\BadSSLPage.class
+org\hquijano\pageobjects\LandingPage.class
+org\hquijano\utilityclasses\BasePage.class
+org\hquijano\utilityclasses\ExtentReporterNG.class
+org\hquijano\pageobjects\LoginResultPage.class
+org\hquijano\pageobjects\StatusCodesPage.class
+org\hquijano\pageobjects\FormAuthPage.class

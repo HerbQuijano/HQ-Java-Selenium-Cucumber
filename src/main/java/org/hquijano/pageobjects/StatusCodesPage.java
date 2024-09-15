@@ -8,22 +8,19 @@ import org.openqa.selenium.support.PageFactory;
 
 public class StatusCodesPage extends BasePage {
 
+    @FindBy(css = "a[href='status_codes/200']")
+    WebElement status200Link;
+    @FindBy(css = "a[href='status_codes/301']")
+    WebElement status301Link;
+    @FindBy(css = "a[href='status_codes/404']")
+    WebElement status404Link;
+    @FindBy(css = "a[href='status_codes/500']")
+    WebElement status500Link;
+
     public StatusCodesPage(WebDriver driver) {
         super(driver);
         PageFactory.initElements(driver, this);
     }
-
-    @FindBy(css = "a[href='status_codes/200']")
-    WebElement status200Link;
-
-    @FindBy(css = "a[href='status_codes/301']")
-    WebElement status301Link;
-
-    @FindBy(css = "a[href='status_codes/404']")
-    WebElement status404Link;
-
-    @FindBy(css = "a[href='status_codes/500']")
-    WebElement status500Link;
 
     public String getStatus200URL() {
 

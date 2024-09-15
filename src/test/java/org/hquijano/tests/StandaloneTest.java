@@ -13,7 +13,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
@@ -26,7 +25,7 @@ public class StandaloneTest {
     public void setup() {
         Properties prop = new Properties();
 
-        try{
+        try {
             FileInputStream propFile = new FileInputStream("src/test/resources/config.properties");
             prop.load(propFile);
         } catch (IOException e) {
@@ -36,14 +35,11 @@ public class StandaloneTest {
 
         String browser = prop.getProperty("browser");
 
-        if (browser.equalsIgnoreCase("chrome"))
-        {
+        if (browser.equalsIgnoreCase("chrome")) {
             driver = new ChromeDriver();
-        }
-        else if(browser.equalsIgnoreCase("firefox")){
+        } else if (browser.equalsIgnoreCase("firefox")) {
             driver = new FirefoxDriver();
-        }
-        else if(browser.equalsIgnoreCase("edge")){
+        } else if (browser.equalsIgnoreCase("edge")) {
             driver = new EdgeDriver();
         }
 
@@ -54,25 +50,25 @@ public class StandaloneTest {
     }
 
     @AfterMethod
-    public void teardown(){
-        if(driver != null){
+    public void teardown() {
+        if (driver != null) {
             driver.quit();
         }
     }
 
     @Test
-    public void landingPageTest(){
+    public void landingPageTest() {
         WebElement formAuthLink = driver.findElement(By.linkText("Form Authentication"));
         Assert.assertTrue(formAuthLink.isDisplayed());
     }
 
     @Test
-    public void formAuthTest(){
+    public void formAuthTest() {
         Properties data = new Properties();
 
         WebElement formAuthLink = driver.findElement(By.linkText("Form Authentication"));
         formAuthLink.click();
-        try{
+        try {
             FileInputStream dataFile = new FileInputStream("src/test/resources/data.properties");
             data.load(dataFile);
         } catch (IOException e) {

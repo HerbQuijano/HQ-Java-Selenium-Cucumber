@@ -1,12 +1,10 @@
 package org.hquijano.tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
-import org.testng.Assert;
 import org.hquijano.pageobjects.FormAuthPage;
 import org.hquijano.pageobjects.LandingPage;
 import org.hquijano.pageobjects.LoginResultPage;
 import org.hquijano.testcomponents.BaseTest;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -14,8 +12,8 @@ import java.util.HashMap;
 
 public class FormAuthPageTest extends BaseTest {
 
-  @Test(dataProvider = "loginSuccessData", groups = {"Smoke"})
-    public void testLoginSuccess(String username, String password){
+    @Test(dataProvider = "loginSuccessData", groups = {"Smoke"})
+    public void testLoginSuccess(String username, String password) {
         LandingPage lp = launchApplication();
         FormAuthPage fap = lp.navigateToFormAuthPage();
         //fap.fillAuthForm("tomsmith", "SuperSecretPassword!");
@@ -28,7 +26,7 @@ public class FormAuthPageTest extends BaseTest {
     }
 
     @Test(dataProvider = "loginFailData", groups = {"Smoke"})
-    public void testInvalidPassword(String username, String password){
+    public void testInvalidPassword(String username, String password) {
         LandingPage lp = launchApplication();
         FormAuthPage fap = lp.navigateToFormAuthPage();
         fap.fillAuthForm(username, password);
@@ -40,7 +38,7 @@ public class FormAuthPageTest extends BaseTest {
     }
 
     @Test(groups = {"Smoke"}, dataProvider = "loginSuccessData")
-    public void testLoginFlashMessage(String username, String password){
+    public void testLoginFlashMessage(String username, String password) {
         LandingPage lp = launchApplication();
         FormAuthPage fap = lp.navigateToFormAuthPage();
         //fap.fillAuthForm("tomsmith", "SuperSecretPassword!");
@@ -53,7 +51,7 @@ public class FormAuthPageTest extends BaseTest {
     }
 
     @Test(groups = {"Smoke"}, dataProvider = "loginSuccessDataMap")
-    public void testLoginFlashMessageMap(HashMap<Object, Object> map){
+    public void testLoginFlashMessageMap(HashMap<Object, Object> map) {
         LandingPage lp = launchApplication();
         FormAuthPage fap = lp.navigateToFormAuthPage();
         //fap.fillAuthForm("tomsmith", "SuperSecretPassword!");
@@ -67,15 +65,15 @@ public class FormAuthPageTest extends BaseTest {
 
     @DataProvider
     public Object[][] loginSuccessData() {
-      return new Object[][]{
-          {"tomsmith", "SuperSecretPassword!"}
-      };
+        return new Object[][]{
+                {"tomsmith", "SuperSecretPassword!"}
+        };
     }
 
     @DataProvider
     public Object[][] loginFailData() {
         return new Object[][]{
-           {"tomsmith", "SuperSecretPassword"}
+                {"tomsmith", "SuperSecretPassword"}
         };
     }
 

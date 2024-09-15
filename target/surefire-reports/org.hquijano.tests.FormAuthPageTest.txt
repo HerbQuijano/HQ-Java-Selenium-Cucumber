@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: org.hquijano.tests.FormAuthPageTest
--------------------------------------------------------------------------------
-Tests run: 6, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 32.811 s - in org.hquijano.tests.FormAuthPageTest

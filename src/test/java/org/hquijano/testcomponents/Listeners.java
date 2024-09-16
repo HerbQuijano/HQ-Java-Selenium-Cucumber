@@ -43,6 +43,7 @@ public class Listeners extends BaseTest implements ITestListener {
     public void onTestFailure(ITestResult result) {
         ITestListener.super.onTestFailure(result);
         extentTestInstance.get().log(Status.FAIL, "Test failed");
+        extentTestInstance.get().fail(result.getThrowable());
 
         try {
             BaseTest baseTest = (BaseTest) result.getInstance();

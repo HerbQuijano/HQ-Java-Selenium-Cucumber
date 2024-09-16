@@ -60,7 +60,7 @@ public class FormAuthPageTest extends BaseTest {
         LoginResultPage lr = fap.getLoginResultPage();
 
         Assert.assertTrue(lr.isResultMessageDisplayed());
-        Assert.assertTrue(lr.getResultMessage().contains("You logged into a secure area!"));
+        Assert.assertTrue(lr.getResultMessage().contains("You logged into a secure area!"), "Login flash message not displayed as expected " + lr.getResultMessage());
     }
 
     @DataProvider

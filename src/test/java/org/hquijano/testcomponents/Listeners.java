@@ -18,28 +18,37 @@ public class Listeners extends BaseTest implements ITestListener {
     ExtentTest test;
     Logger logger;
 
+    // This line declares a ThreadLocal variable named extentTestInstance that
+    // holds instances of ExtentTest.
+    // ThreadLocal ensures that each thread has its own instance of ExtentTest
+    ThreadLocal<ExtentTest> extentTestInstance = new ThreadLocal<>();
+
     @Override
     public void onTestStart(ITestResult result) {
         ITestListener.super.onTestStart(result);
         test = reports.createTest(result.getMethod().getMethodName());
+        // This sets the ExtentTest instance in the ThreadLocal variable,
+        // ensuring that each thread has its own instance of ExtentTest.
+        extentTestInstance.set(test);
     }
 
     @Override
     public void onTestSuccess(ITestResult result) {
         ITestListener.super.onTestSuccess(result);
-        test.log(Status.PASS, "Test passed");
+        // The get() method retrieves the ExtentTest instance from the ThreadLocal variable.
+        extentTestInstance.get().log(Status.PASS, "Test passed");
     }
 
     @Override
     public void onTestFailure(ITestResult result) {
         ITestListener.super.onTestFailure(result);
-        test.log(Status.FAIL, "Test failed");
+        extentTestInstance.get().log(Status.FAIL, "Test failed");
 
         try {
             BaseTest baseTest = (BaseTest) result.getInstance();
             String screenshotPath = baseTest.getScreenshot(result.getName());
             Path source = Paths.get(screenshotPath);
-            test.addScreenCaptureFromPath(source.toString());
+            extentTestInstance.get().addScreenCaptureFromPath(source.toString());
             //baseTest.getScreenshot(result.getName());
         } catch (IOException e) {
             e.printStackTrace();

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Heroku App">
+<suite name="Heroku App" parallel="tests">
     <listeners>
         <listener class-name="org.hquijano.testcomponents.Listeners"></listener>
     </listeners>
@@ -8,6 +8,8 @@
         <classes>
             <class name="org.hquijano.tests.FormAuthPageTest"/>
             <class name="org.hquijano.tests.BadSSLTest"/>
+            <class name="org.hquijano.tests.LandingPageTest"/>
+            <class name="org.hquijano.tests.StatusCodesTest"></class>
             <!-- Other test classes -->
         </classes>
     </test>

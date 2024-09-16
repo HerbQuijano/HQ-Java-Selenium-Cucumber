@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class Listeners extends BaseTest implements ITestListener {
+public class Listeners extends BaseTest implements ITestListener{
     ExtentReports reports = ExtentReporterNG.getReportObject();
     ExtentTest test;
     Logger logger;
@@ -41,6 +41,8 @@ public class Listeners extends BaseTest implements ITestListener {
 
     @Override
     public void onTestFailure(ITestResult result) {
+        // RetryAnalyzer
+
         ITestListener.super.onTestFailure(result);
         extentTestInstance.get().log(Status.FAIL, "Test failed");
         extentTestInstance.get().fail(result.getThrowable());

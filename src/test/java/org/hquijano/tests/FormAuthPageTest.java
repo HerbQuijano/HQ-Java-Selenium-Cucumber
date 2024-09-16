@@ -4,6 +4,7 @@ import org.hquijano.pageobjects.FormAuthPage;
 import org.hquijano.pageobjects.LandingPage;
 import org.hquijano.pageobjects.LoginResultPage;
 import org.hquijano.testcomponents.BaseTest;
+import org.hquijano.testcomponents.RetryAnalyzer;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -49,8 +50,8 @@ public class FormAuthPageTest extends BaseTest {
         Assert.assertTrue(lr.isResultMessageDisplayed());
         Assert.assertTrue(lr.getResultMessage().contains("You logged into a secure area!"));
     }
-
-    @Test(groups = {"Smoke"}, dataProvider = "loginSuccessDataMap")
+    // RetryAnalyzer is used to retry failed test cases
+    @Test(groups = {"Smoke"}, dataProvider = "loginSuccessDataMap", retryAnalyzer = RetryAnalyzer.class)
     public void testLoginFlashMessageMap(HashMap<Object, Object> map) {
         LandingPage lp = launchApplication();
         FormAuthPage fap = lp.navigateToFormAuthPage();

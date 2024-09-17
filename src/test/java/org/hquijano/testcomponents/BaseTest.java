@@ -12,6 +12,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterTest;
@@ -21,6 +23,8 @@ import org.testng.annotations.BeforeTest;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,7 +40,7 @@ public abstract class BaseTest {
     protected ExtentTest extentTest;
 
     @BeforeClass
-    public void setup() {
+    public void setup() throws MalformedURLException {
         Properties prop = new Properties();
 
         try {
@@ -49,6 +53,10 @@ public abstract class BaseTest {
         String browser = System.getProperty("browser") != null ? System.getProperty("browser") : prop.getProperty("browser");
         //String browser = prop.getProperty("browser");
 
+        // For Remote Driver
+        String hubURL = "http://localhost:4444";
+        DesiredCapabilities capabilities = new DesiredCapabilities();
+
         if (browser.equalsIgnoreCase("chrome")) {
             driver = new ChromeDriver();
         } else if (browser.equalsIgnoreCase("firefox")) {
@@ -59,6 +67,19 @@ public abstract class BaseTest {
             ChromeOptions options = new ChromeOptions();
             options.setAcceptInsecureCerts(true);
             driver = new ChromeDriver(options);
+        }
+        // Remote Drivers
+        else if (browser.equalsIgnoreCase("remote-chrome")) {
+            capabilities.setBrowserName("chrome");
+            driver = new RemoteWebDriver(new URL(hubURL), capabilities);
+        }
+        else if (browser.equalsIgnoreCase("remote-edge")) {
+            capabilities.setBrowserName("MicrosoftEdge");
+            driver = new RemoteWebDriver(new URL(hubURL), capabilities);
+        }
+        else if (browser.equalsIgnoreCase("remote-firefox")) {
+            capabilities.setBrowserName("firefox");
+            driver = new RemoteWebDriver(new URL(hubURL), capabilities);
         }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));

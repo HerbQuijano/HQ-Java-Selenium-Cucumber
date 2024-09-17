@@ -13,6 +13,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -62,19 +63,19 @@ public abstract class BaseTest {
         String hubURL = "http://selenium-hub:4444/wd/hub";
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
-        if (browser.equalsIgnoreCase("chrome")) {
-            driver = new ChromeDriver();
-        } else if (browser.equalsIgnoreCase("firefox")) {
-            driver = new FirefoxDriver();
-        } else if (browser.equalsIgnoreCase("edge")) {
-            driver = new EdgeDriver();
-        } else if (browser.equalsIgnoreCase("chrome-badSSL")) {
-            ChromeOptions options = new ChromeOptions();
-            options.setAcceptInsecureCerts(true);
-            driver = new ChromeDriver(options);
-        }
+//        if (browser.equalsIgnoreCase("chrome")) {
+//            driver = new ChromeDriver();
+//        } else if (browser.equalsIgnoreCase("firefox")) {
+//            driver = new FirefoxDriver();
+//        } else if (browser.equalsIgnoreCase("edge")) {
+//            driver = new EdgeDriver();
+//        } else if (browser.equalsIgnoreCase("chrome-badSSL")) {
+//            ChromeOptions options = new ChromeOptions();
+//            options.setAcceptInsecureCerts(true);
+//            driver = new ChromeDriver(options);
+//        }
         // Remote Drivers
-        else if (browser.equalsIgnoreCase("remote-chrome")) {
+        if (browser.equalsIgnoreCase("headless-chrome")) {
             ChromeOptions options = new ChromeOptions();
             options.addArguments("--headless=new");
             options.setCapability("browserName", "chrome");
@@ -82,13 +83,20 @@ public abstract class BaseTest {
             options.merge(capabilities);
             driver = new RemoteWebDriver(new URL(hubURL), options);
         }
-        else if (browser.equalsIgnoreCase("remote-edge")) {
+        else if (browser.equalsIgnoreCase("chrome")) {
+            capabilities.setBrowserName("chrome");
+            driver = new RemoteWebDriver(new URL(hubURL), capabilities);
+        }
+        else if (browser.equalsIgnoreCase("edge")) {
             capabilities.setBrowserName("MicrosoftEdge");
             driver = new RemoteWebDriver(new URL(hubURL), capabilities);
         }
-        else if (browser.equalsIgnoreCase("remote-firefox")) {
+        else if (browser.equalsIgnoreCase("firefox")) {
+            FirefoxOptions options = new FirefoxOptions();
             capabilities.setBrowserName("firefox");
-            driver = new RemoteWebDriver(new URL(hubURL), capabilities);
+            options.setAcceptInsecureCerts(true);
+            options.merge(capabilities);
+            driver = new RemoteWebDriver(new URL(hubURL), options);
         }
 
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));

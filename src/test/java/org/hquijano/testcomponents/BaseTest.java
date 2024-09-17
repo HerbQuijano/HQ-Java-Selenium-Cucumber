@@ -11,6 +11,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -53,8 +54,12 @@ public abstract class BaseTest {
         String browser = System.getProperty("browser") != null ? System.getProperty("browser") : prop.getProperty("browser");
         //String browser = prop.getProperty("browser");
 
-        // For Remote Driver
-        String hubURL = "http://localhost:4444";
+        // For Remote Driver (localhost)
+        //String hubURL = "http://localhost:4444";
+
+        // For Docker container
+        //String hubURL = "http://selenium-hub:4444/wd/hub";
+        String hubURL = "http://selenium-hub:4444/wd/hub";
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         if (browser.equalsIgnoreCase("chrome")) {
@@ -70,8 +75,12 @@ public abstract class BaseTest {
         }
         // Remote Drivers
         else if (browser.equalsIgnoreCase("remote-chrome")) {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless=new");
+            options.setCapability("browserName", "chrome");
             capabilities.setBrowserName("chrome");
-            driver = new RemoteWebDriver(new URL(hubURL), capabilities);
+            options.merge(capabilities);
+            driver = new RemoteWebDriver(new URL(hubURL), options);
         }
         else if (browser.equalsIgnoreCase("remote-edge")) {
             capabilities.setBrowserName("MicrosoftEdge");

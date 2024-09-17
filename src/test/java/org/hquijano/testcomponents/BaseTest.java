@@ -37,16 +37,17 @@ public abstract class BaseTest {
 
     @BeforeClass
     public void setup() {
-        Properties prop = new Properties();
-
-        try {
-            FileInputStream propFile = new FileInputStream("src/test/resources/config.properties");
-            prop.load(propFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String browser = prop.getProperty("browser");
+//        Properties prop = new Properties();
+//
+//        try {
+//            FileInputStream propFile = new FileInputStream("src/test/resources/config.properties");
+//            prop.load(propFile);
+//        } catch (IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//
+//        String browser = prop.getProperty("browser");
+        String browser = System.getProperty("browser", "chrome");
 
         if (browser.equalsIgnoreCase("chrome")) {
             driver = new ChromeDriver();

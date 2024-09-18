@@ -3,24 +3,20 @@ package org.hquijano.testcomponents;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import org.hquijano.pageobjects.BadSSLPage;
+import org.hquijano.pageobjects.FormAuthPage;
 import org.hquijano.pageobjects.LandingPage;
 import org.hquijano.pageobjects.StatusCodesPage;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.edge.EdgeOptions;
-import org.openqa.selenium.firefox.FirefoxDriver;
+
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeTest;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,57 +37,23 @@ public abstract class BaseTest {
     protected WebDriverWait wait;
     protected ExtentTest extentTest;
 
-    @BeforeClass
+    //@BeforeClass
     public void setup() throws MalformedURLException {
-        Properties prop = new Properties();
-
-        try {
-            FileInputStream propFile = new FileInputStream("src/test/resources/config.properties");
-            prop.load(propFile);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        String browser = System.getProperty("browser") != null ? System.getProperty("browser") : prop.getProperty("browser");
-        //String browser = prop.getProperty("browser");
-
-        // For Remote Driver (localhost)
-        //String hubURL = "http://localhost:4444";
-
-        // For Docker container
         //String hubURL = "http://selenium-hub:4444/wd/hub";
-        String hubURL = "http://selenium-hub:4444/wd/hub";
+        String hubURL = "http://localhost:4444/wd/hub";
         DesiredCapabilities capabilities = new DesiredCapabilities();
+        String browser = System.getProperty("browser", "chrome");
 
-//        if (browser.equalsIgnoreCase("chrome")) {
-//            driver = new ChromeDriver();
-//        } else if (browser.equalsIgnoreCase("firefox")) {
-//            driver = new FirefoxDriver();
-//        } else if (browser.equalsIgnoreCase("edge")) {
-//            driver = new EdgeDriver();
-//        } else if (browser.equalsIgnoreCase("chrome-badSSL")) {
-//            ChromeOptions options = new ChromeOptions();
-//            options.setAcceptInsecureCerts(true);
-//            driver = new ChromeDriver(options);
-//        }
-        // Remote Drivers
         if (browser.equalsIgnoreCase("headless-chrome")) {
             ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless=new");
-            options.setCapability("browserName", "chrome");
+            options.addArguments("--headless");
             capabilities.setBrowserName("chrome");
             options.merge(capabilities);
             driver = new RemoteWebDriver(new URL(hubURL), options);
-        }
-        else if (browser.equalsIgnoreCase("chrome")) {
+        } else if (browser.equalsIgnoreCase("chrome")) {
             capabilities.setBrowserName("chrome");
             driver = new RemoteWebDriver(new URL(hubURL), capabilities);
-        }
-        else if (browser.equalsIgnoreCase("edge")) {
-            capabilities.setBrowserName("MicrosoftEdge");
-            driver = new RemoteWebDriver(new URL(hubURL), capabilities);
-        }
-        else if (browser.equalsIgnoreCase("firefox")) {
+        } else if (browser.equalsIgnoreCase("firefox")) {
             FirefoxOptions options = new FirefoxOptions();
             capabilities.setBrowserName("firefox");
             options.setAcceptInsecureCerts(true);
@@ -103,7 +65,7 @@ public abstract class BaseTest {
         driver.manage().window().maximize();
     }
 
-    @AfterClass
+    //@AfterClass
     public void tearDown() {
         if (driver != null) {
             driver.quit();
@@ -113,6 +75,11 @@ public abstract class BaseTest {
     public LandingPage launchApplication() {
         driver.get("https://the-internet.herokuapp.com/");
         return new LandingPage(driver);
+    }
+
+    public FormAuthPage navigateToFormAuthPage(){
+        driver.get("https://the-internet.herokuapp.com/login");
+        return new FormAuthPage(driver);
     }
 
     public BadSSLPage navigateToBadSSLPage() {
